@@ -10,15 +10,17 @@ npm install emorlog
 
 ## Usage
 
-**`morganDevtool(format);`**
+**`morganDevtool(format,options);`**
 
 - `format` (string): The morgan format string
+- `options` (object): Optional options to pass through to morgan
 
 ```js
-var express, = require('express');
-var { morganDevtool, log } = require('emorlog');
+import express, { Request, Response } from 'express';
+import { morganDevtool, log } from 'emorlog';
 
-var app = express();
+const app = express();
+
 app.use(morganDevtool('dev'));
 
 app.get('/', (req: Request, res: Response) => {
@@ -36,3 +38,14 @@ output color
 [2021-08-28T12:18:29+07:00] INFO: Server listing at http://localhost:5000
 [2021-08-28T12:18:32+07:00] INFO: GET / 304 2.251 ms - -
 ```
+
+## Tokens (extends morgan)
+
+`:datetz`
+The current date and time in UTC.
+
+`:methodColor`
+The HTTP method of the request.
+
+`:statusColor`
+The status code of the response.

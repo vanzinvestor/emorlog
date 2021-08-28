@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import chalk from 'chalk';
 import dayjs from 'dayjs';
 import morgan from 'morgan';
@@ -52,29 +52,37 @@ morgan.token('methodColor', (req: Request, res: Response, args) => {
   return `\x1b[${color}m${method}\x1b[0m`;
 });
 
-const morganDevTool = (format?: string) => {
-  if (format === undefined || format === 'dev') {
+const morganDevTool = (
+  format: string,
+  options?: morgan.Options<Request, Response> | undefined
+) => {
+  if (format === 'dev') {
     return morgan(
-      chalk`[:datetz] {green INFO}: {bold :methodColor} :url {bold :statusColor} :response-time ms - :res[content-length]`
+      chalk`[:datetz] {green INFO}: {bold :methodColor} :url {bold :statusColor} :response-time ms - :res[content-length]`,
+      options
     );
   } else if (format === 'combined') {
     return morgan(
-      chalk`[:datetz] {green INFO}: :remote-addr - :remote-user "{bold :methodColor} :url HTTP/:http-version" {bold :statusColor} :res[content-length] ":referrer" ":user-agent"`
+      chalk`[:datetz] {green INFO}: :remote-addr - :remote-user "{bold :methodColor} :url HTTP/:http-version" {bold :statusColor} :res[content-length] ":referrer" ":user-agent"`,
+      options
     );
   } else if (format === 'common') {
     return morgan(
-      chalk`[:datetz] {green INFO}: :remote-addr - :remote-user "{bold :methodColor} :url HTTP/:http-version" {bold :statusColor} :res[content-length]`
+      chalk`[:datetz] {green INFO}: :remote-addr - :remote-user "{bold :methodColor} :url HTTP/:http-version" {bold :statusColor} :res[content-length]`,
+      options
     );
   } else if (format === 'short') {
     return morgan(
-      chalk`[:datetz] {green INFO}: :remote-addr :remote-user {bold :methodColor} :url HTTP/:http-version {bold :statusColor} :res[content-length] - :response-time ms`
+      chalk`[:datetz] {green INFO}: :remote-addr :remote-user {bold :methodColor} :url HTTP/:http-version {bold :statusColor} :res[content-length] - :response-time ms`,
+      options
     );
   } else if (format === 'tiny') {
     return morgan(
-      chalk`[:datetz] {green INFO}: {bold :methodColor} :url {bold :statusColor} :res[content-length] - :response-time ms`
+      chalk`[:datetz] {green INFO}: {bold :methodColor} :url {bold :statusColor} :res[content-length] - :response-time ms`,
+      options
     );
   } else {
-    return morgan(format);
+    return morgan(format, options);
   }
 };
 
