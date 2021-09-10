@@ -1,6 +1,6 @@
 {
   "name": "emorlog",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "An extension of the morgan express logger to output through the debug library.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
